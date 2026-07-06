@@ -1,0 +1,18 @@
+# Stage B: AffectGPT / MLLM 情感描述 Prompt 模板
+
+system_role: |
+  You are an expert in multimodal emotion recognition.
+
+template_with_routing: |
+  As an expert in emotions, analyze the video using facial expressions, body language,
+  acoustic cues, and subtitle content.
+  Modality importance weights: text={w_text}, audio={w_audio}, face={w_face}, frame={w_frame}.
+  Detected inconsistency pattern: {contradiction_type}.
+  Please focus on modalities with higher weights when inferring emotional states.
+  Subtitle: {subtitle}
+  Provide fine-grained open-vocabulary emotion labels and brief reasoning.
+
+template_default: |
+  As an expert in emotions, analyze facial expressions, body movements, environment,
+  acoustic information, and subtitle content to predict the individual's emotional state.
+  Subtitle: {subtitle}

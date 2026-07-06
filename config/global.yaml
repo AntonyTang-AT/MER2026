@@ -1,0 +1,22 @@
+# 全局配置 — 请根据本机路径修改
+
+project:
+  name: mer2026-track2
+  seed: 42
+
+paths:
+  # 项目根目录（相对路径基于仓库根）
+  project_root: "."
+  mertools_root: "third_party/MERTools/MER2026/MER2026_Track2"
+  data_root: "data/mer2026-dataset"
+  models_root: "models"
+  outputs_root: "outputs"
+  logs_root: "logs"
+
+gpu:
+  device_ids: [0]
+  # 训练 batch（单卡），与官方 human yaml 对齐时可改为 3
+  batch_size_train: 3
+
+logging:
+  level: INFO

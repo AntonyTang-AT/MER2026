@@ -1,0 +1,3 @@
+# 本项目额外依赖（主环境见 third_party/MERTools/MER2026/environment_vllm3.yml）
+
+pyyaml>=6.0

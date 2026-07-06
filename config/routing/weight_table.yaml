@@ -1,0 +1,35 @@
+# 矛盾类型 → 模态融合权重（来自 SIT L4.4，和为 1.0）
+# 模态键: text, audio, face, frame
+
+consistent:
+  text: 0.25
+  audio: 0.25
+  face: 0.25
+  frame: 0.25
+
+masking:
+  text: 0.10
+  audio: 0.20
+  face: 0.50
+  frame: 0.20
+  note: "微表情/人脸泄露真实情绪，弱化文本"
+
+sarcasm:
+  text: 0.40
+  audio: 0.40
+  face: 0.10
+  frame: 0.10
+  note: "文本与语音最重要"
+
+hidden_emotion:
+  text: 0.10
+  audio: 0.10
+  face: 0.70
+  frame: 0.10
+  note: "微表情/细粒度面部为核心"
+
+intensity_mismatch:
+  text: 0.30
+  audio: 0.20
+  face: 0.30
+  frame: 0.20

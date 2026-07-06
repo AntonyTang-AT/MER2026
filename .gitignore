@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+
+# 环境与 IDE
+.env
+.venv/
+venv/
+.idea/
+.vscode/
+
+# 大文件与输出
+data/mer2026-dataset/
+models/*/
+!models/README.md
+outputs/*
+!outputs/.gitkeep
+logs/*
+!logs/.gitkeep
+
+# 第三方（可选：若 clone 则纳入版本控制需去掉此行）
+third_party/MERTools/
+
+# 实验 checkpoint
+*.pth
+*.pt
+*.ckpt
+*.npz
