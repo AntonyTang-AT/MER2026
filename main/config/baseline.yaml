@@ -1,0 +1,36 @@
+# Baseline 复现实验配置（阶段 2）
+
+experiment:
+  name: exp001_baseline
+  description: "官方 AffectGPT Human-OV baseline 复现"
+
+train:
+  human:
+    cfg: train_configs/human_outputhybird_bestsetup_bestfusion_face_lz.yaml
+    max_epoch: 60
+    iters_per_epoch: 500
+    batch_size_train: 3
+  mercaptionplus:
+    cfg: train_configs/mercaptionplus_outputhybird_bestsetup_bestfusion_face_lz.yaml
+
+inference:
+  dataset: MER2026OV
+  zeroshot: true
+  face_or_frame: multiface_audio_face_text
+  base_root: output/results-mer2026ov
+  test_epochs: "10-60"
+  skip_epoch: 5
+  gpu: 0
+
+ovlabel:
+  modelname: Qwen25
+
+eval:
+  gt_csv: track2_train_human.csv
+  split: val
+
+zeroshot:
+  # 可选 zero-shot MLLM 抽测（需额外下载 SALMONN/Chat-UniVi 权重）
+  enabled: false
+  models: [SALMONN, Chat-UniVi]
+  num_samples: 100

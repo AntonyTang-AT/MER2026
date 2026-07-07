@@ -14,6 +14,7 @@ build/
 venv/
 .idea/
 .vscode/
+**/.ipynb_checkpoints/
 
 # 大文件与输出
 data/mer2026-dataset/
@@ -23,6 +24,45 @@ outputs/*
 !outputs/.gitkeep
 logs/*
 !logs/.gitkeep
+
+# 队员工作区运行时输出
+main/logs/*
+!main/logs/.gitkeep
+main/outputs/*
+!main/outputs/.gitkeep
+tmx/logs/*
+!tmx/logs/.gitkeep
+tmx/outputs/*
+!tmx/outputs/.gitkeep
+yxp/logs/*
+!yxp/logs/.gitkeep
+yxp/outputs/*
+!yxp/outputs/.gitkeep
+zzj/logs/*
+!zzj/logs/.gitkeep
+zzj/outputs/*
+!zzj/outputs/.gitkeep
+cyx/logs/*
+!cyx/logs/.gitkeep
+cyx/outputs/*
+!cyx/outputs/.gitkeep
+
+# 工作区目录内共享资源软链接
+main/data
+main/models
+main/third_party
+tmx/data
+tmx/models
+tmx/third_party
+yxp/data
+yxp/models
+yxp/third_party
+zzj/data
+zzj/models
+zzj/third_party
+cyx/data
+cyx/models
+cyx/third_party
 
 # 第三方（可选：若 clone 则纳入版本控制需去掉此行）
 third_party/MERTools/

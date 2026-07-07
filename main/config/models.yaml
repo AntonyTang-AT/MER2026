@@ -1,0 +1,15 @@
+# 预训练模型路径（相对 models_root 或绝对路径）
+
+llm:
+  qwen25: Qwen2.5-7B-Instruct
+
+visual:
+  clip_vit_large: clip-vit-large-patch14
+
+audio:
+  chinese_hubert_large: chinese-hubert-large
+
+affectgpt:
+  # 训练 config 见 third_party/.../train_configs/
+  human_config: human_outputhybird_bestsetup_bestfusion_face_lz.yaml
+  mercaptionplus_config: mercaptionplus_outputhybird_bestsetup_bestfusion_face_lz.yaml

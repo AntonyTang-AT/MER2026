@@ -1,0 +1,20 @@
+# Stage C: reason/description → 开放词汇标签（对齐 EW 评估）
+
+few_shot_examples:
+  - input: "We cannot recognize his emotional state"
+    output: "[]"
+  - input: "His emotional state is happy, sad, and angry"
+    output: "[happy, sad, angry]"
+  - input: "She appears joyful and slightly worried"
+    output: "[happy, worried]"
+
+instruction: |
+  Assume the role of an expert in emotions. Based on the clues, identify emotional states
+  of the main character. Separate categories with commas. Output only clearly identifiable
+  emotions as a list. Map synonyms to common forms when possible (e.g. joyful -> happy).
+  If none identified, output [].
+
+postprocess:
+  lowercase: true
+  deduplicate: true
+  strip_brackets: true
