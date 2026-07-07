@@ -1,0 +1,11 @@
+{
+  "model": "exp002_A",
+  "dataset": "human_ov",
+  "split": "val",
+  "ew_f1": 0.6071,
+  "precision": 0.6077,
+  "recall": 0.6067,
+  "pred_npz": "checkpoint_000050_loss_0.002-openset.npz",
+  "reason_npz": "results-mer2026ov-human/human_outputhybird_bestsetup_bestfusion_face_lz_20260707185/checkpoint_000050_loss_0.002.npz",
+  "notes": "hold-out model epoch 50; official prompt + official ovlabel; rerun 2026-07-08"
+}

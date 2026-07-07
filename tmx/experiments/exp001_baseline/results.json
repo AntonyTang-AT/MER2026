@@ -1,0 +1,12 @@
+[
+  {
+    "model": "exp002_D",
+    "dataset": "human_ov",
+    "ew_f1": 0.5101997944231694,
+    "precision": 0.5681370160002441,
+    "recall": 0.46346542436321386,
+    "split": "val",
+    "pred_npz": "/root/autodl-tmp/MER2026/tmx/third_party/MERTools/MER2026/MER2026_Track2/output/results-mer2026ov-human-prompts/human_outputhybird_bestsetup_bestfusion_face_lz_20260707185/checkpoint_000050_loss_0.002-openset-D.npz",
+    "notes": ""
+  }
+]

@@ -75,6 +75,8 @@ def run_train(
     env = os.environ.copy()
     if cuda_devices is not None:
         env["CUDA_VISIBLE_DEVICES"] = cuda_devices
+    if target in ("human", "mixed"):
+        env["TMX_HUMAN_TRAIN_HOLDOUT"] = "1"
     env["PYTHONPATH"] = f"{project_root}:{env.get('PYTHONPATH', '')}"
 
     cmd = [

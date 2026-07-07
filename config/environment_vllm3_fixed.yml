@@ -225,7 +225,7 @@ dependencies:
       - torchvision==0.21.0+cu124
       - tqdm==4.67.1
       - traitlets==5.14.3
-      - transformers==4.52.0.dev0
+      - transformers>=4.55.2,<5
       - transformers-stream-generator==0.0.5
       - triton==3.2.0
       - trl==0.19.1

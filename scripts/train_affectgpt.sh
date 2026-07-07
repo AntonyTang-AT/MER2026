@@ -10,4 +10,5 @@ shift || true
 source /root/miniconda3/etc/profile.d/conda.sh
 conda activate vllm3
 
+# human | mercaptionplus | mixed
 python -m src.training.train_affectgpt --target "${TARGET}" "$@"

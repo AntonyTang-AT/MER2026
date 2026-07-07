@@ -73,7 +73,10 @@ def run_inference(
     if cuda_devices is not None:
         env["CUDA_VISIBLE_DEVICES"] = cuda_devices
     if dataset == "Human":
+        from src.data.human_ov_split import val_split_path
+
         env["TMX_INFERENCE_HUMAN"] = "1"
+        env["TMX_HUMAN_VAL_LIST"] = str(val_split_path())
     env["PYTHONPATH"] = f"{project_root}:{env.get('PYTHONPATH', '')}"
 
     print("Running:", " ".join(cmd), f"(cwd={mertools_root})")

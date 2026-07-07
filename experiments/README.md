@@ -14,5 +14,5 @@ experiments/exp001_baseline/
 |----|------|------|------|
 | exp001 | Baseline 复现 | 2 | pending |
 | exp002 | Prompt 消融 | 4 | pending |
-| exp003 | 混合训练 | 5 | pending |
+| exp003 | 混合训练 | 5 | infrastructure ready |
 | exp004 | 特征增强 | 7 | pending |

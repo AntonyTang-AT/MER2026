@@ -45,19 +45,19 @@ log "=== Phase 2: pip install ($(wc -l < "${REQ_FILE}") packages) ==="
 # pip 走官方源更快：关闭学术加速（仅 GitHub/HF 下载时开启）
 unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy 2>/dev/null || true
 
-# PyTorch CUDA 12.4 需额外 index
-log "Installing PyTorch (cu124) ..."
+# PyTorch CUDA 12.8（RTX 5090 / sm_120）
+log "Installing PyTorch (cu128) ..."
 conda run -n vllm3 pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 \
   --index-url https://download.pytorch.org/whl/cu128 >> "${LOG}" 2>&1
 
 log "Installing remaining requirements (may take 30-60+ min) ..."
 conda run -n vllm3 pip install -r "${REQ_FILE}" \
-  --extra-index-url https://download.pytorch.org/whl/cu124 \
+  --extra-index-url https://download.pytorch.org/whl/cu128 \
   >> "${LOG}" 2>&1 || {
     log "WARN: full pip install had errors; see log. Retrying without flash-attn if needed."
     grep -vE '^(defaults|conda-forge)$|^python=' "${REQ_FILE}" | grep -v '^flash-attn' > "${ROOT}/logs/vllm3_pip_no_flash.txt"
     conda run -n vllm3 pip install -r "${ROOT}/logs/vllm3_pip_no_flash.txt" \
-      --extra-index-url https://download.pytorch.org/whl/cu124 \
+      --extra-index-url https://download.pytorch.org/whl/cu128 \
       >> "${LOG}" 2>&1 || true
   }
 

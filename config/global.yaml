@@ -20,3 +20,8 @@ gpu:
 
 logging:
   level: INFO
+
+team:
+  member_id: "tmx"
+  workspace: "tmx"
+  repo_root: "/root/autodl-tmp/MER2026"

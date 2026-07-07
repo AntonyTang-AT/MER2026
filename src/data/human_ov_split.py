@@ -67,6 +67,16 @@ def load_train_names() -> list[str]:
     return [n for n in load_human_names() if n not in val_set]
 
 
+def val_name_set() -> set[str]:
+    return set(load_val_names())
+
+
+def filter_train_annotations(annotation: list[dict]) -> list[dict]:
+    """训练时从 Human_Dataset.annotation 中排除 val 样本。"""
+    val_set = val_name_set()
+    return [item for item in annotation if item.get("name") not in val_set]
+
+
 def generate_data_stats(out_path: Path | None = None) -> str:
     idx = MER2026Index.from_config()
     samples = idx.load_split("human")

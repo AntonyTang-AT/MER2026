@@ -12,6 +12,13 @@ train:
     batch_size_train: 3
   mercaptionplus:
     cfg: train_configs/mercaptionplus_outputhybird_bestsetup_bestfusion_face_lz.yaml
+    max_epoch: 60
+    iters_per_epoch: 5000
+    filtered_label_csv: track2_train_mercaptionplus_filtered.csv
+  mixed:
+    cfg: train_configs/human_mercaptionplus_mixed_face_lz.yaml
+    max_epoch: 60
+    iters_per_epoch: 2000
 
 inference:
   dataset: MER2026OV

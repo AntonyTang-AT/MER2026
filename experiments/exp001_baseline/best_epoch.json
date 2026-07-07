@@ -1,0 +1,6 @@
+{
+  "epoch": 50,
+  "ew_f1": 0.6071371191540658,
+  "checkpoint": "/root/autodl-tmp/MER2026/tmx/third_party/MERTools/MER2026/MER2026_Track2/output/human_outputhybird_bestsetup_bestfusion_face_lz/human_outputhybird_bestsetup_bestfusion_face_lz_20260707185/checkpoint_000050_loss_0.002.pth",
+  "openset_npz": "/root/autodl-tmp/MER2026/third_party/MERTools/MER2026/MER2026_Track2/output/results-mer2026ov-human/human_outputhybird_bestsetup_bestfusion_face_lz_20260707185/checkpoint_000050_loss_0.002-openset.npz"
+}

@@ -5,7 +5,7 @@
 ## 阶段 0：环境与工程底座
 
 - [x] 0.1 克隆 MERTools（commit `89120b7`）
-- [x] 0.2 Conda 环境 vllm3（2026-07-07 验证通过：torch 2.6+cu124、transformers 4.52.1、vllm 0.8.5，250 包）
+- [x] 0.2 Conda 环境 vllm3（2026-07-07：torch 2.8+cu128、vllm 0.10.2、5×5090）
 - [x] 0.3 HF 数据（9/9 zip ✅；Human+candidate 21531×3 媒体齐全；verify PASS）
 - [x] 0.4 预训练模型（CLIP ✅ HuBERT ✅ Qwen 4/4 ✅）
 - [x] 0.5 统一配置框架（config + config_loader）

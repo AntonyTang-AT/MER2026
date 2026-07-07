@@ -137,49 +137,6 @@ pytest tests/ -q
 \`\`\`
 EOF
 
-  cat > "${WS}/docs/AGENT.md" << EOF
-# Agent 提示文档 — 工作区 \`${m}\`
-
-> **用法：** 在 Cursor 中打开 \`${ROOT}/${m}\`，复制下方「一键 Prompt」作为 Agent 第一条消息。
-
----
-
-## 一键 Prompt
-
-\`\`\`
-你是 MER2026 Track2（MER-FG）参赛项目的接续开发 Agent。
-
-## 工作区身份（必须遵守）
-- 当前工作区：${m}
-- 根目录：${ROOT}/${m}
-- **只允许**在 \`${m}/\` 内创建、修改、删除代码与配置
-- **禁止**修改 ${FORBIDDEN} 等其他工作区
-- 共享 \`data/\`、\`models/\`、\`third_party/\` 为软链接，勿删除共享数据
-
-## 项目背景
-- GitHub：https://github.com/AntonyTang-AT/MER2026
-- 协作：${ROOT}/docs/TEAM_WORKFLOW.md
-- 规则：docs/MEMBER_RULES.md
-- 规划：docs/PLAN.md、docs/TASK_CHECKLIST.md
-
-## 开发前
-1. cd ${ROOT}/${m} && export PYTHONPATH=\$(pwd):\${PYTHONPATH:-}
-2. 阅读 docs/MEMBER_RULES.md
-3. 改动限制在 ${m}/ 下
-
-## 关键命令
-\`\`\`bash
-cd ${ROOT}/${m}
-bash scripts/sync_mertools_config.sh
-bash scripts/eval_local.sh /path/to/openset.npz --split val
-\`\`\`
-
-## 汇报
-- 改动了 \`${m}/\` 下哪些文件
-- 是否影响其他工作区（应为：否）
-\`\`\`
-EOF
-
   # 写入 / 更新 team 标识（先去掉旧 block 再追加，避免 rsync 后 id 错误）
   if [[ -f "${WS}/config/global.yaml" ]]; then
     python3 - << PY
@@ -201,6 +158,13 @@ EOF
 
   echo "  -> ${WS} OK"
 done
+
+echo "========== render AGENT.md (all workspaces) =========="
+if [[ -f "${ROOT}/scripts/render_agent_docs.py" ]]; then
+  python3 "${ROOT}/scripts/render_agent_docs.py"
+else
+  echo "WARN: scripts/render_agent_docs.py not found; skip AGENT.md generation"
+fi
 
 echo ""
 echo "Done. Workspaces: ${WORKSPACES[*]}"

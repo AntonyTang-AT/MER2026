@@ -72,6 +72,11 @@ def run_inference(
     env = os.environ.copy()
     if cuda_devices is not None:
         env["CUDA_VISIBLE_DEVICES"] = cuda_devices
+    if dataset == "Human":
+        from src.data.human_ov_split import val_split_path
+
+        env["TMX_INFERENCE_HUMAN"] = "1"
+        env["TMX_HUMAN_VAL_LIST"] = str(val_split_path())
     env["PYTHONPATH"] = f"{project_root}:{env.get('PYTHONPATH', '')}"
 
     print("Running:", " ".join(cmd), f"(cwd={mertools_root})")
@@ -84,11 +89,127 @@ def find_reason_npz(mertools_root: Path | None = None) -> list[Path]:
     root = Path(paths["mertools_root"])
     bl = load_yaml("baseline.yaml")
     base = bl["inference"]["base_root"]
-    pattern = root / f"{base}-mer2026ov"
-    if not pattern.exists():
-        pattern = root / base.replace("output/", "output/")  # fallback
     candidates = list(root.glob(f"{base}*/*.npz"))
     return [p for p in candidates if not p.name.endswith("-openset.npz")]
+
+
+def find_latest_reason_npz(
+    *,
+    mertools_root: Path | None = None,
+    prompts: bool = False,
+) -> Path | None:
+    """返回最新的 reason npz（按修改时间）。"""
+    paths = get_paths() if mertools_root is None else {"mertools_root": mertools_root}
+    root = Path(paths["mertools_root"])
+    bl = load_yaml("baseline.yaml")
+    base = bl["inference"]["base_root"]
+    found: list[Path] = []
+    for path in root.glob(f"{base}*/*.npz"):
+        if path.name.endswith("-openset.npz"):
+            continue
+        path_str = path.as_posix()
+        if prompts and "-prompts" not in path_str:
+            continue
+        if not prompts and "-prompts" in path_str:
+            continue
+        found.append(path)
+    if not found:
+        return None
+    return max(found, key=lambda p: p.stat().st_mtime)
+
+
+def find_latest_openset_npz(
+    reason_npz: Path | str | None = None,
+    *,
+    mertools_root: Path | None = None,
+) -> Path | None:
+    """返回最新的 openset npz。"""
+    if reason_npz is not None:
+        reason_path = Path(reason_npz)
+        sibling = reason_path.with_name(reason_path.stem + "-openset.npz")
+        if sibling.is_file():
+            return sibling
+
+    paths = get_paths() if mertools_root is None else {"mertools_root": mertools_root}
+    root = Path(paths["mertools_root"])
+    bl = load_yaml("baseline.yaml")
+    base = bl["inference"]["base_root"]
+    found = [
+        p
+        for p in root.glob(f"{base}*/*-openset.npz")
+        if p.is_file()
+    ]
+    if not found:
+        found = list(root.glob(f"{base}*/*/*.npz"))
+        found = [p for p in found if p.name.endswith("-openset.npz")]
+    if not found:
+        return None
+    return max(found, key=lambda p: p.stat().st_mtime)
+
+
+def run_stage_b(
+    *,
+    use_routing: bool = True,
+    routing_json: Path | str | None = None,
+    prompt_variant: str = "routing",
+    cfg_path: str | None = None,
+    dataset: str | None = None,
+    zeroshot: bool = True,
+    cuda_devices: str | None = None,
+    limit: int | None = None,
+    dry_run: bool = False,
+) -> Path | None:
+    """Stage B：AffectGPT 推理，返回 reason npz 路径。"""
+    if dry_run:
+        print("[dry-run] skip affectgpt inference")
+        return find_latest_reason_npz(prompts=use_routing)
+
+    if use_routing:
+        code = run_inference_with_prompts(
+            routing_json=Path(routing_json) if routing_json else None,
+            prompt_variant=prompt_variant,
+            cfg_path=cfg_path,
+            dataset=dataset,
+            cuda_devices=cuda_devices,
+            limit=limit,
+        )
+    else:
+        code = run_inference(
+            cfg_path=cfg_path,
+            dataset=dataset,
+            zeroshot=zeroshot,
+            cuda_devices=cuda_devices,
+        )
+
+    if code != 0:
+        raise RuntimeError(f"AffectGPT inference failed with exit code {code}")
+
+    reason_npz = find_latest_reason_npz(prompts=use_routing)
+    if reason_npz is None:
+        raise FileNotFoundError("No reason npz found after Stage B inference")
+    return reason_npz
+
+
+def run_inference_with_prompts(
+    *,
+    routing_json: Path | str | None = None,
+    prompt_variant: str = "routing",
+    cfg_path: str | None = None,
+    dataset: str | None = None,
+    cuda_devices: str | None = None,
+    limit: int | None = None,
+) -> int:
+    """带 per-sample Prompt 的推理入口（阶段 4）。"""
+    from src.inference.infer_with_prompts import run_inference_with_prompts as _run
+
+    return _run(
+        cfg_path=cfg_path,
+        dataset=dataset or load_yaml("baseline.yaml")["inference"]["dataset"],
+        routing_json=Path(routing_json) if routing_json else None,
+        prompt_variant=prompt_variant,
+        cuda_devices=cuda_devices,
+        limit=limit,
+    )
 
 
 def main() -> None:

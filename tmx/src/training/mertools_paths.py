@@ -73,26 +73,68 @@ def sync_train_configs(*, verbose: bool = True) -> list[str]:
     return copied
 
 
+def _patch_config_block_entry(text: str, block_name: str, key: str, value_line: str) -> tuple[str, bool]:
+    """Patch a single key inside a `NAME = { ... }` block in config.py."""
+    pattern = rf"({block_name} = \{{.*?'{key}'\s*:\s*)[^\n]+"
+    patched, n = re.subn(
+        pattern,
+        rf"\1{value_line}",
+        text,
+        count=1,
+        flags=re.DOTALL,
+    )
+    if n == 0:
+        raise RuntimeError(f"Could not patch {block_name}['{key}'] in config.py")
+    return patched, patched != text
+
+
+def _ensure_mercaptionplus_audio_root(config_py: Path, *, verbose: bool = True) -> bool:
+    text = config_py.read_text(encoding="utf-8")
+    target = "os.path.join(DATA_DIR['MER2026'], 'audio'),"
+    if re.search(r"PATH_TO_RAW_AUDIO = \{.*?'MERCaptionPlus'\s*:\s*" + re.escape(target), text, re.DOTALL):
+        return False
+    patched, changed = _patch_config_block_entry(
+        text,
+        "PATH_TO_RAW_AUDIO",
+        "MERCaptionPlus",
+        target,
+    )
+    if changed:
+        config_py.write_text(patched, encoding="utf-8")
+        if verbose:
+            print("restored PATH_TO_RAW_AUDIO['MERCaptionPlus'] -> audio/")
+    return changed
+
+
 def patch_mercaptionplus_label_csv(label_csv: Path | str, *, verbose: bool = True) -> bool:
     """将 config.PATH_TO_LABEL['MERCaptionPlus'] 指向过滤后 CSV。"""
     paths = get_paths()
     config_py = paths["mertools_root"] / "config.py"
+    label_name = Path(label_csv).name
     label_str = str(Path(label_csv).resolve()).replace("\\", "/")
     text = config_py.read_text(encoding="utf-8")
-    patched, n = re.subn(
-        r"(\s*'MERCaptionPlus':\s*)[^\n]+",
-        rf"\1os.path.join(DATA_DIR['MER2026'], '{Path(label_csv).name}'),",
+    _ensure_mercaptionplus_audio_root(config_py, verbose=False)
+
+    target = f"os.path.join(DATA_DIR['MER2026'], '{label_name}'),"
+    block_match = re.search(r"PATH_TO_LABEL = \{.*?\n\}", text, re.DOTALL)
+    if block_match:
+        for line in block_match.group(0).splitlines():
+            if "'MERCaptionPlus'" in line and label_name in line:
+                if verbose:
+                    print(f"MERCaptionPlus label csv already set: {label_str}")
+                return False
+
+    patched, changed = _patch_config_block_entry(
         text,
-        count=1,
+        "PATH_TO_LABEL",
+        "MERCaptionPlus",
+        target,
     )
-    if n == 0:
-        raise RuntimeError("Could not patch PATH_TO_LABEL['MERCaptionPlus'] in config.py")
-    if patched != text:
+    if changed:
         config_py.write_text(patched, encoding="utf-8")
         if verbose:
             print(f"patched MERCaptionPlus label csv: {label_str}")
-        return True
-    return False
+    return changed
 
 
 def restore_mercaptionplus_label_csv(*, verbose: bool = True) -> bool:
