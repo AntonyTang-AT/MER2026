@@ -1,0 +1,31 @@
+variants:
+  A:
+    description: official
+    openset: official
+    postprocess: official
+    infer_script: infer_baseline.sh
+    note: "exp001 baseline — official prompts end-to-end"
+  B:
+    description: routing
+    openset: official
+    postprocess: official
+    infer_script: infer_with_prompts.sh
+    routing_json: outputs/routing/human_routing.json
+    note: "routing-aware description only"
+  C:
+    description: official
+    openset: ew_aware
+    postprocess: ew
+    infer_script: infer_baseline.sh
+    note: "EW-aware openset extraction only (reuse exp001 reason npz)"
+  D:
+    description: routing
+    openset: ew_aware
+    postprocess: ew
+    infer_script: infer_with_prompts.sh
+    routing_json: outputs/routing/human_routing.json
+    note: "full prompt stack"
+
+eval:
+  split: val
+  gt_csv: data/mer2026-dataset/track2_train_human.csv

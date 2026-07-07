@@ -1,0 +1,57 @@
+# 阶段 4 Prompt 流水线配置
+
+default_variant:
+  description: routing
+  openset: ew_aware
+  postprocess: ew
+
+paths:
+  routing_json: outputs/routing/human_routing.json
+
+# 轻量同义词映射（openset 后处理）
+synonym_map:
+  joyful: happy
+  joy: happy
+  happiness: happy
+  glad: happy
+  pleased: happy
+  sorrow: sad
+  sorrowful: sad
+  unhappy: sad
+  depressed: sad
+  mad: angry
+  furious: angry
+  rage: angry
+  annoyed: angry
+  afraid: fear
+  fearful: fear
+  scared: fear
+  frightened: fear
+  anxious: worried
+  anxiety: worried
+  nervous: worried
+  surprised: surprise
+  shocking: surprise
+  disgusted: disgust
+  neutral: neutral
+  calm: neutral
+
+# EW 常见 level1 词（Prompt 提示用）
+ew_level1_hints:
+  - happy
+  - sad
+  - angry
+  - fear
+  - surprise
+  - disgust
+  - neutral
+  - worried
+
+postprocess:
+  lowercase: true
+  deduplicate: true
+  apply_synonym_map: true
+  filter_unknown: false
+
+official:
+  description_question: "Please recognize all possible emotional states of the character."
