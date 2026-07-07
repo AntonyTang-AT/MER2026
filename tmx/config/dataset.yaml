@@ -1,0 +1,24 @@
+# MER2026 数据集路径与 CSV 字段
+
+dataset_name: MER2026
+
+files:
+  subtitle: subtitle_chieng.csv
+  train_human: track2_train_human.csv
+  train_mercaptionplus: track2_train_mercaptionplus.csv
+  candidate: track1_track2_candidate.csv
+
+dirs:
+  video: video
+  audio: audio
+  openface_face: openface_face
+
+csv_columns:
+  name: name
+  openset: openset
+  subtitle_en: english
+
+splits:
+  human_ov_val_ratio: 0.2
+  human_ov_val_seed: 42
+  human_ov_val_list: data/splits/human_ov_val.txt

@@ -1,0 +1,29 @@
+# SIT L4 专家规则阈值（基于各模态 valence 代理分数，范围建议 [-1, 1]）
+
+rules:
+  masking:
+    text_v_min: 0.6
+    micro_v_max: -0.4
+
+  sarcasm:
+    text_v_min: 0.3
+    speech_v_max: -0.4
+    macro_v_max: -0.4
+
+  hidden_emotion:
+    macro_v_abs_max: 0.2
+    micro_v_abs_min: 0.5
+
+  intensity_mismatch:
+    valence_diff_min: 0.6
+    require_same_sign: true
+
+priority:
+  - masking
+  - sarcasm
+  - hidden_emotion
+  - intensity_mismatch
+  - consistent
+
+distance:
+  contradiction_threshold: 0.6

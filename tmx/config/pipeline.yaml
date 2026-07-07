@@ -1,0 +1,52 @@
+# 推理流水线各阶段开关
+
+stages:
+  routing:
+    enabled: true
+    description: "Stage A: SIT-L4 矛盾检测与动态路由"
+
+  affectgpt:
+    enabled: true
+    description: "Stage B: AffectGPT 多模态推理"
+    use_routing_in_prompt: true
+    prompt_variant: routing  # official | routing | default
+    zeroshot: true
+
+  openset_extract:
+    enabled: true
+    description: "Stage C: Qwen 开放词汇标签抽取"
+    prompt_variant: ew_aware
+    postprocess: ew
+    batch_size: 8
+
+  ensemble:
+    enabled: false
+    description: "可选：多 checkpoint 融合"
+    strategy: label_union
+
+  submission:
+    enabled: true
+    description: "Stage E: CodaBench 提交 CSV"
+
+  evaluation:
+    enabled: false
+    description: "可选：本地 EW-F1（eval 模式）"
+    split: val
+
+inference:
+  dataset: MER2026OV
+  subtitle_flag: subtitle
+  base_output: outputs/results-mer2026ov
+
+artifacts:
+  routing_dir: outputs/routing
+  submission_dir: outputs/submissions
+  timing_dir: outputs/pipeline_runs
+
+runtime:
+  skip_existing: true
+  dry_run: false
+
+evaluation:
+  metric: ew_f1
+  level: level1

@@ -1,0 +1,117 @@
+{
+  "train_run": "human",
+  "updated_at": "2026-07-07T12:24:32",
+  "rows": [
+    {
+      "epoch": 10,
+      "checkpoint": "/root/autodl-tmp/MER2026/third_party/MERTools/MER2026/MER2026_Track2/output/human_outputhybird_bestsetup_bestfusion_face_lz/human_outputhybird_bestsetup_bestfusion_face_lz_20260707093/checkpoint_000010_loss_0.068.pth",
+      "ew_f1": null,
+      "precision": null,
+      "recall": null,
+      "openset_npz": null,
+      "status": "planned",
+      "notes": ""
+    },
+    {
+      "epoch": 15,
+      "checkpoint": "/root/autodl-tmp/MER2026/third_party/MERTools/MER2026/MER2026_Track2/output/human_outputhybird_bestsetup_bestfusion_face_lz/human_outputhybird_bestsetup_bestfusion_face_lz_20260707093/checkpoint_000015_loss_0.020.pth",
+      "ew_f1": null,
+      "precision": null,
+      "recall": null,
+      "openset_npz": null,
+      "status": "planned",
+      "notes": ""
+    },
+    {
+      "epoch": 20,
+      "checkpoint": "/root/autodl-tmp/MER2026/third_party/MERTools/MER2026/MER2026_Track2/output/human_outputhybird_bestsetup_bestfusion_face_lz/human_outputhybird_bestsetup_bestfusion_face_lz_20260707093/checkpoint_000020_loss_0.006.pth",
+      "ew_f1": null,
+      "precision": null,
+      "recall": null,
+      "openset_npz": null,
+      "status": "planned",
+      "notes": ""
+    },
+    {
+      "epoch": 25,
+      "checkpoint": "/root/autodl-tmp/MER2026/third_party/MERTools/MER2026/MER2026_Track2/output/human_outputhybird_bestsetup_bestfusion_face_lz/human_outputhybird_bestsetup_bestfusion_face_lz_20260707093/checkpoint_000025_loss_0.008.pth",
+      "ew_f1": null,
+      "precision": null,
+      "recall": null,
+      "openset_npz": null,
+      "status": "planned",
+      "notes": ""
+    },
+    {
+      "epoch": 30,
+      "checkpoint": "/root/autodl-tmp/MER2026/third_party/MERTools/MER2026/MER2026_Track2/output/human_outputhybird_bestsetup_bestfusion_face_lz/human_outputhybird_bestsetup_bestfusion_face_lz_20260707093/checkpoint_000030_loss_0.010.pth",
+      "ew_f1": null,
+      "precision": null,
+      "recall": null,
+      "openset_npz": null,
+      "status": "planned",
+      "notes": ""
+    },
+    {
+      "epoch": 35,
+      "checkpoint": "/root/autodl-tmp/MER2026/third_party/MERTools/MER2026/MER2026_Track2/output/human_outputhybird_bestsetup_bestfusion_face_lz/human_outputhybird_bestsetup_bestfusion_face_lz_20260707093/checkpoint_000035_loss_0.022.pth",
+      "ew_f1": null,
+      "precision": null,
+      "recall": null,
+      "openset_npz": null,
+      "status": "planned",
+      "notes": ""
+    },
+    {
+      "epoch": 40,
+      "checkpoint": "/root/autodl-tmp/MER2026/third_party/MERTools/MER2026/MER2026_Track2/output/human_outputhybird_bestsetup_bestfusion_face_lz/human_outputhybird_bestsetup_bestfusion_face_lz_20260707093/checkpoint_000040_loss_0.006.pth",
+      "ew_f1": null,
+      "precision": null,
+      "recall": null,
+      "openset_npz": null,
+      "status": "planned",
+      "notes": ""
+    },
+    {
+      "epoch": 45,
+      "checkpoint": "/root/autodl-tmp/MER2026/third_party/MERTools/MER2026/MER2026_Track2/output/human_outputhybird_bestsetup_bestfusion_face_lz/human_outputhybird_bestsetup_bestfusion_face_lz_20260707093/checkpoint_000045_loss_0.005.pth",
+      "ew_f1": null,
+      "precision": null,
+      "recall": null,
+      "openset_npz": null,
+      "status": "planned",
+      "notes": ""
+    },
+    {
+      "epoch": 50,
+      "checkpoint": "/root/autodl-tmp/MER2026/third_party/MERTools/MER2026/MER2026_Track2/output/human_outputhybird_bestsetup_bestfusion_face_lz/human_outputhybird_bestsetup_bestfusion_face_lz_20260707093/checkpoint_000050_loss_0.006.pth",
+      "ew_f1": null,
+      "precision": null,
+      "recall": null,
+      "openset_npz": null,
+      "status": "planned",
+      "notes": ""
+    },
+    {
+      "epoch": 55,
+      "checkpoint": "/root/autodl-tmp/MER2026/third_party/MERTools/MER2026/MER2026_Track2/output/human_outputhybird_bestsetup_bestfusion_face_lz/human_outputhybird_bestsetup_bestfusion_face_lz_20260707093/checkpoint_000055_loss_0.011.pth",
+      "ew_f1": null,
+      "precision": null,
+      "recall": null,
+      "openset_npz": null,
+      "status": "planned",
+      "notes": ""
+    },
+    {
+      "epoch": 60,
+      "checkpoint": "/root/autodl-tmp/MER2026/third_party/MERTools/MER2026/MER2026_Track2/output/human_outputhybird_bestsetup_bestfusion_face_lz/human_outputhybird_bestsetup_bestfusion_face_lz_20260707093/checkpoint_000060_loss_0.005.pth",
+      "ew_f1": null,
+      "precision": null,
+      "recall": null,
+      "openset_npz": null,
+      "status": "planned",
+      "notes": ""
+    }
+  ],
+  "best_epoch": null
+}
