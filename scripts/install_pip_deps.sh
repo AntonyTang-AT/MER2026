@@ -4,6 +4,7 @@ set -uo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 REQ_FILE="${ROOT}/config/vllm3_pip_requirements.txt"
+CONSTRAINTS="${ROOT}/config/torch28_constraints.txt"
 CLEAN_REQ="${ROOT}/logs/vllm3_pip_clean.txt"
 LOG="${ROOT}/logs/vllm3_pip_install.log"
 LOCK="${ROOT}/logs/vllm3_pip_install.lock"
@@ -40,7 +41,8 @@ conda run -n vllm3 pip install "av==14.2.0" --only-binary=av >> "${LOG}" 2>&1 ||
 
 log "=== Step 2: pip install remaining requirements ==="
 if conda run -n vllm3 pip install -r "${CLEAN_REQ}" \
-  --extra-index-url https://download.pytorch.org/whl/cu124 \
+  -c "${CONSTRAINTS}" \
+  --extra-index-url https://download.pytorch.org/whl/cu128 \
   >> "${LOG}" 2>&1; then
   log "pip install: SUCCESS"
 else

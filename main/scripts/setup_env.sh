@@ -47,8 +47,8 @@ unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy 2>/dev/n
 
 # PyTorch CUDA 12.4 需额外 index
 log "Installing PyTorch (cu124) ..."
-conda run -n vllm3 pip install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0 \
-  --index-url https://download.pytorch.org/whl/cu124 >> "${LOG}" 2>&1
+conda run -n vllm3 pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 \
+  --index-url https://download.pytorch.org/whl/cu128 >> "${LOG}" 2>&1
 
 log "Installing remaining requirements (may take 30-60+ min) ..."
 conda run -n vllm3 pip install -r "${REQ_FILE}" \
