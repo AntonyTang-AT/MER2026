@@ -1,52 +1,126 @@
-# MER2026 Track2 — MER-FG 参赛项目（团队协作）
+# MER2026 Track2 — 开放词汇情感识别
 
-ACM Multimedia 2026 多模态细粒度情感识别（开放词汇）赛道。
+ACM Multimedia 2026 **MER-FG / Track2**：多模态开放词汇（open-vocabulary）情感识别。  
+输入短视频（人脸 / 音频 / 文本），输出英文情绪词列表；官方指标为 Emotion Wheel 对齐后的 **EW-F1**。
 
-## 工作区
+仓库：[AntonyTang-AT/MER2026](https://github.com/AntonyTang-AT/MER2026)
 
-| 目录 | 说明 | Agent | 规则 |
-|------|------|-------|------|
-| **main** | 主集成 / 公共基线 | [`main/docs/AGENT.md`](main/docs/AGENT.md) | [`main/docs/MEMBER_RULES.md`](main/docs/MEMBER_RULES.md) |
-| tmx | 队员 | [`tmx/docs/AGENT.md`](tmx/docs/AGENT.md) | [`tmx/docs/MEMBER_RULES.md`](tmx/docs/MEMBER_RULES.md) |
-| yxp | 队员 | [`yxp/docs/AGENT.md`](yxp/docs/AGENT.md) | [`yxp/docs/MEMBER_RULES.md`](yxp/docs/MEMBER_RULES.md) |
-| zzj | 队员 | [`zzj/docs/AGENT.md`](zzj/docs/AGENT.md) | [`zzj/docs/MEMBER_RULES.md`](zzj/docs/MEMBER_RULES.md) |
-| cyx | 队员 | [`cyx/docs/AGENT.md`](cyx/docs/AGENT.md) | [`cyx/docs/MEMBER_RULES.md`](cyx/docs/MEMBER_RULES.md) |
+---
 
-**协作说明：** [`docs/TEAM_WORKFLOW.md`](docs/TEAM_WORKFLOW.md)
+## 当前最优结果（生产锁定）
 
-## 共享资源（仓库根目录，全队一份）
+| 项 | 值 |
+|------|-----|
+| 变体 | `R3_RL_triple_ser_lr_dtrb_dtrb_reason_cap8` |
+| **Test EW-F1** | **65.7297%** |
+| 说明文档 | [`experiments/exp015_selective_fusion/BEST_MODEL_PIPELINE.md`](experiments/exp015_selective_fusion/BEST_MODEL_PIPELINE.md) |
 
-| 路径 | 说明 |
+**一句话**：三专家（RL gap1 + SFT e14 + e15）经 **SER-lr** 选择性路由后，用 **reason 引导的 DTRB** 在分歧样本上补 recall，再按 **EW synonym** 清洗提交。
+
+```text
+RL official openset
+      │
+      ▼
+ RRB-gap1  (reason↔openset 最多补 1 标)
+      │
+      ├──────────────┐
+      ▼              ▼
+   SER-lr  ◄── e14 / e15
+      │
+      ▼
+ DTRB (reason_guided, cap8)
+      │
+      ▼
+ EW sanitize → answer.csv / zip
+```
+
+### 关键超参
+
+| 模块 | 配置 |
 |------|------|
-| [`data/`](data/) | MER2026 数据集 |
-| [`models/`](models/) | Qwen / CLIP / HuBERT |
-| [`third_party/MERTools/`](third_party/MERTools/) | 官方 baseline |
+| RRB | `gap_add`, `max_add=1`, `require_gap=True`, `allow_noise_swap=True` |
+| SER | `ser_lr`, `confidence_threshold=0.65`, `max_switch_rate=0.10` |
+| DTRB | `reason_guided=True`, `max_labels=8` |
+| 提交 | `sanitize_mode=ew` |
 
-各队员目录通过软链接引用上述路径，**请勿复制四份大文件**。
-
-## 快速开始（以 `main` 或队员 `tmx` 为例）
+### 复现（本地已有三路 openset + RL reason 时）
 
 ```bash
-cd MER2026/main    # 或 MER2026/tmx
+conda activate vllm3
+export PYTHONPATH="$(pwd):${PYTHONPATH:-}"
+
+python scripts/rebuild_best_model_candidate20k.py
+# 产物：
+#   outputs/exp021/R3_RL_triple_ser_lr_dtrb_dtrb_reason_cap8_candidate20k.npz
+#   outputs/submissions/R3_RL_triple_ser_lr_dtrb_dtrb_reason_cap8_candidate20k.zip
+```
+
+核心代码：
+
+| 路径 | 作用 |
+|------|------|
+| `src/inference/rl_openset_bridge.py` | RRB-gap1 |
+| `src/inference/expert_router.py` | SER-lr |
+| `src/inference/dtrb_boost.py` | DTRB reason_guided |
+| `src/inference/triple_union.py` | 三路融合 |
+| `src/data/submission_formatter.py` | EW sanitize 提交 |
+| `outputs/exp015/ser_router_model.json` | SER 路由器权重 |
+| `scripts/rebuild_best_model_candidate20k.py` | 一键重建生产栈 |
+
+---
+
+## 项目结构（简要）
+
+```text
+MER2026/
+├── src/                 # 训练 / 推理 / 路由 / 评测代码
+├── scripts/             # 实验与重建脚本
+├── config/              # 配置
+├── experiments/         # 实验记录与最优流水线文档
+├── data/                # 数据集（大文件，默认不入库）
+├── models/              # Qwen / CLIP / HuBERT（大文件，默认不入库）
+├── third_party/         # MERTools 等
+├── outputs/             # 推理产物；生产栈相关小资产可入库
+└── main|tmx|yxp|zzj|cyx # 队员工作区（软链共享大数据）
+```
+
+协作说明：[`docs/TEAM_WORKFLOW.md`](docs/TEAM_WORKFLOW.md)
+
+---
+
+## 快速开始
+
+```bash
+cd MER2026
 export PYTHONPATH="$(pwd):${PYTHONPATH:-}"
 conda activate vllm3
 
+# 同步 MERTools 配置（如需要）
 bash scripts/sync_mertools_config.sh
+
+# 本地验证 openset npz
 bash scripts/eval_local.sh /path/to/openset.npz --split val
 ```
 
-## 规划文档
-
-各队员目录内均有副本：
-
-- [`docs/PLAN.md`](tmx/docs/PLAN.md) — 技术路线与分阶段任务
-- [`docs/TASK_CHECKLIST.md`](tmx/docs/TASK_CHECKLIST.md) — 进度清单
-
-## 初始化工作区
+队员工作区初始化：
 
 ```bash
-bash scripts/init_team_workspaces.sh   # 创建/同步 main + 四名队员目录
+bash scripts/init_team_workspaces.sh
 ```
+
+---
+
+## 设计原则（踩坑摘要）
+
+1. **融合优于单模硬刷** — 成绩主要来自门控融合，而非再堆一个万能 checkpoint。  
+2. **默认保守、局部激进** — SER 限切换率；DTRB 只打分歧样本；RRB 每次最多 +1。  
+3. **以官方提交面为准** — EW synonym 折叠后不变的「细标优化」对 test 近似无效。  
+4. **外部 LLM 重写 reason 已证伪** — DeepSeek / Gemini 全量改写分歧子集均低于生产（约 65.5–65.6%）。
+
+详细流程图、消融与「明确不做」列表见  
+[`BEST_MODEL_PIPELINE.md`](experiments/exp015_selective_fusion/BEST_MODEL_PIPELINE.md)。
+
+---
 
 ## 资源链接
 
