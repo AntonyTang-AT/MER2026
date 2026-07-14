@@ -22,6 +22,10 @@ models/*/
 !models/README.md
 outputs/*
 !outputs/.gitkeep
+# 生产最优栈必要的小资产（SER 路由器权重）
+!outputs/exp015/
+outputs/exp015/*
+!outputs/exp015/ser_router_model.json
 logs/*
 !logs/.gitkeep
 

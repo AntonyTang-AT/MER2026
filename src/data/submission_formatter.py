@@ -10,7 +10,16 @@ from pathlib import Path
 import pandas as pd
 
 from src.core.config_loader import get_project_root, load_global_config
-from src.evaluation.mertools_bridge import load_npz_predictions
+
+# ew: 历史生产；raw / dtrb_preserve: exp027 提交面实验
+SANITIZE_MODES = ("ew", "raw", "dtrb_preserve")
+
+
+def _sanitize(value: str, *, mode: str) -> str:
+    # 延迟导入，避免 submission_formatter ↔ inference.pipeline 循环依赖
+    from src.inference.openset_postprocess import sanitize_openset_string
+
+    return sanitize_openset_string(value, mode=mode)
 
 
 def _candidate_csv() -> Path:
@@ -30,7 +39,18 @@ def format_submission(
     *,
     candidate_csv: Path | None = None,
     out_path: Path | None = None,
+    sanitize_mode: str = "ew",
 ) -> Path:
+    """写出 CodaBench answer.csv。
+
+    sanitize_mode:
+      - ew: pipeline synonym（生产默认）
+      - raw: 不做 synonym
+      - dtrb_preserve: 保留 anxious/nervous/joyful/surprised
+    """
+    if sanitize_mode not in SANITIZE_MODES:
+        raise ValueError(f"sanitize_mode must be one of {SANITIZE_MODES}, got {sanitize_mode!r}")
+
     candidate_csv = candidate_csv or _candidate_csv()
     if not candidate_csv.is_file():
         raise FileNotFoundError(f"Candidate CSV not found: {candidate_csv}")
@@ -47,6 +67,7 @@ def format_submission(
         pred = name2pred.get(name, "")
         if name not in name2pred:
             missing += 1
+        pred = _sanitize(pred, mode=sanitize_mode) if pred else "[]"
         rows.append({"name": name, "openset": pred})
 
     if missing:
@@ -66,15 +87,24 @@ def main() -> None:
     parser.add_argument("--pred", type=Path, required=True, help="Path to openset.npz")
     parser.add_argument("--out", type=Path, default=None, help="Output CSV path")
     parser.add_argument("--candidate-csv", type=Path, default=None)
+    parser.add_argument(
+        "--sanitize-mode",
+        choices=list(SANITIZE_MODES),
+        default="ew",
+        help="Submit-surface sanitize policy (default: ew)",
+    )
     args = parser.parse_args()
+
+    from src.evaluation.mertools_bridge import load_npz_predictions
 
     name2pred = load_npz_predictions(args.pred)
     out = format_submission(
         name2pred,
         candidate_csv=args.candidate_csv,
         out_path=args.out,
+        sanitize_mode=args.sanitize_mode,
     )
-    print(f"Submission written: {out} ({sum(1 for _ in open(out)) - 1} rows)")
+    print(f"Submission written: {out} ({sum(1 for _ in open(out)) - 1} rows) sanitize={args.sanitize_mode}")
 
 
 if __name__ == "__main__":

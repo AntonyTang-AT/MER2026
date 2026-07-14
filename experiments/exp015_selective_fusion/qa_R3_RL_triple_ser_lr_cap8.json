@@ -1,0 +1,52 @@
+{
+  "path": "outputs/exp015/R3_RL_triple_ser_lr_cap8.npz",
+  "n": 20000,
+  "neutral_n": 0,
+  "neutral_rate": 0.0,
+  "mean_labels": 6.9869,
+  "top_labels": [
+    [
+      "worried",
+      12881
+    ],
+    [
+      "serious",
+      12553
+    ],
+    [
+      "concerned",
+      6693
+    ],
+    [
+      "confused",
+      5673
+    ],
+    [
+      "firm",
+      4421
+    ],
+    [
+      "angry",
+      4293
+    ],
+    [
+      "helpless",
+      4222
+    ],
+    [
+      "contemplative",
+      4129
+    ],
+    [
+      "dissatisfied",
+      3551
+    ],
+    [
+      "happy",
+      3496
+    ]
+  ],
+  "status": "PASS",
+  "fails": [],
+  "warns": []
+}

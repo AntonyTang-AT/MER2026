@@ -1,0 +1,242 @@
+{
+  "updated_at": "2026-07-14T12:56:19+0800",
+  "phase": "production_locked_pause",
+  "production": {
+    "variant": "R3_RL_triple_ser_lr_dtrb_dtrb_reason_cap8",
+    "test_score": 0.657297,
+    "zip": "outputs/submissions/R3_RL_triple_ser_lr_dtrb_dtrb_reason_cap8_candidate20k.zip",
+    "pipeline": "RRB-gap1 → SER(0.65/10%) → DTRB(reason_guided)"
+  },
+  "test_history": [
+    {
+      "variant": "R3_RL_triple_union_cap8",
+      "test": 0.650601
+    },
+    {
+      "variant": "R3_RL_triple_ser_lr_cap8",
+      "test": 0.654621
+    },
+    {
+      "variant": "R3_RL_triple_ser_lr_dtrb_cap8",
+      "test": 0.656307
+    },
+    {
+      "variant": "R3_RL_triple_ser_lr_dtrb_hdo_expand_sel_a2_cap8",
+      "test": 0.649622,
+      "status": "archived"
+    },
+    {
+      "variant": "R3_RL_triple_ser_lr_dtrb_v2_baseline_dtrb_cap8",
+      "test": 0.656164,
+      "status": "archived",
+      "delta_pp_vs_prod": -0.0143
+    },
+    {
+      "variant": "R3_RL_triple_ser_lr_dtrb_rrb_reason_bridge_gap1_cap8",
+      "test": 0.657084,
+      "status": "production",
+      "delta_pp_vs_old": 0.0777
+    },
+    {
+      "variant": "R3_RL_triple_ser_lr_dtrb_rrb_gap2_cap8",
+      "test": 0.656209,
+      "status": "archived",
+      "delta_pp_vs_prod": -0.0875
+    },
+    {
+      "variant": "R3_RL_triple_ser_lr_dtrb_rrb_gap1_norm_cap8",
+      "test": 0.656094,
+      "status": "archived",
+      "delta_pp_vs_prod": -0.099
+    },
+    {
+      "variant": "R3_RL_triple_ser_lr_dtrb_rrb_norm_cap8",
+      "test": 0.656048,
+      "status": "archived",
+      "delta_pp_vs_prod": -0.1036
+    },
+    {
+      "variant": "R3_RL_triple_ser06_sw10_dtrb_rrb_gap1_ser06_cap8",
+      "test": 0.655347,
+      "status": "archived",
+      "delta_pp_vs_prod": -0.1737
+    },
+    {
+      "variant": "R3_RL_triple_ser_lr_dtrb_rrb_gap2_cap8",
+      "test": 0.656209,
+      "status": "archived",
+      "delta_pp_vs_prod": -0.0875
+    },
+    {
+      "variant": "R3_RL_triple_ser_lr_dtrb_rrb_gap1_norm_cap8",
+      "test": 0.656094,
+      "status": "archived",
+      "delta_pp_vs_prod": -0.099
+    },
+    {
+      "variant": "R3_RL_triple_ser_lr_dtrb_rrb_norm_cap8",
+      "test": 0.656048,
+      "status": "archived",
+      "delta_pp_vs_prod": -0.1036
+    },
+    {
+      "variant": "R3_RL_triple_ser06_sw10_dtrb_rrb_gap1_ser06_cap8",
+      "test": 0.655347,
+      "status": "archived",
+      "delta_pp_vs_prod": -0.1737
+    },
+    {
+      "variant": "R3_RL_triple_ser_lr_dtrb_dtrb_reason_cap8",
+      "test": 0.657297,
+      "status": "production",
+      "delta_pp_vs_old_gap1": 0.0213
+    },
+    {
+      "variant": "R3_RL_triple_ser_lr_dtrb_gap1_pool_cap8",
+      "test": 0.657207,
+      "status": "strong_secondary",
+      "delta_pp_vs_old_gap1": 0.0123
+    },
+    {
+      "variant": "R3_RL_triple_ser07_sw5_dtrb_ser70_sw5_cap8",
+      "test": 0.655854,
+      "status": "archived",
+      "delta_pp_vs_old_gap1": -0.123
+    },
+    {
+      "variant": "R3_RL_triple_ser_lr_dtrb_cap7_cap7",
+      "test": 0.653292,
+      "status": "archived",
+      "delta_pp_vs_old_gap1": -0.3792
+    }
+  ],
+  "exp016": {
+    "status": "test_archived",
+    "test_score": 0.656164,
+    "val_ew_f1": 0.6866793143961226,
+    "root_cause": "c20k 1735 样本 swap 漂移；净删 joyful/surprised",
+    "diff_report": "outputs/exp017/prod_vs_v2_diff.json"
+  },
+  "exp017": {
+    "status": "ser_tune_val_gated",
+    "dtrb_tight_sweep": "outputs/exp017/dtrb_tight_val306_sweep.json",
+    "dtrb_conclusion": "参数空间饱和，严格门控 0 通过",
+    "ser_tune_sweep": "outputs/exp017/ser_tune_val306_sweep.json",
+    "best_stack_candidate": {
+      "variant": "conf0.6_sw0.1",
+      "ser_val": 0.6876400160345271,
+      "stack_val": 0.6901191514175729,
+      "delta_pp_vs_prod_stack": 0.41,
+      "n_switched": 30
+    },
+    "meta_probe_assessment": "experiments/exp017_next_attack/meta_probe_assessment.md"
+  },
+  "exp018": {
+    "status": "openset_ablation_archived",
+    "strategy": "experiments/exp018_rl_reason_openset/strategy.json",
+    "ablation": "outputs/exp018/rl_openset_val306_ablation.json",
+    "n_gate_pass": 0,
+    "conclusion": "openset prompt/postprocess 变体均劣于 official",
+    "next": "exp019 reason→openset bridge"
+  },
+  "exp019": {
+    "status": "production_promoted",
+    "test_score": 0.657084,
+    "delta_pp_vs_old_prod": 0.0777,
+    "strategy": "experiments/exp019_rl_reason_bridge/strategy.json",
+    "approach": "reason_openset_bridge_cpu"
+  },
+  "tracks": {
+    "ser": {
+      "status": "tune_next",
+      "next": "conf=0.60 max_switch=10%"
+    },
+    "dtrb": {
+      "status": "production_locked",
+      "config": "outputs/exp015/dtrb_production_config.json"
+    },
+    "meta_probe_mass_test": {
+      "status": "not_recommended",
+      "reason": "路线已收敛，val-test脱钩，ROI低"
+    }
+  },
+  "forbidden_stack": [
+    "hdo_on_dtrb",
+    "wcc_global",
+    "suffix_openset_merge",
+    "dtrb_v2_code_drift",
+    "meta_probe_36zip_mass_test"
+  ],
+  "submit_next": [],
+  "submit_next_note": "生产锁定 65.7297%（dtrb_reason + EW sanitize）；无新zip，先做高杠杆诊断再动",
+  "exp020": {
+    "status": "test_archived_all_below_prod",
+    "results": {
+      "rrb_gap2": 0.656209,
+      "rrb_gap1_norm": 0.656094,
+      "rrb_norm": 0.656048,
+      "rrb_gap1_ser06": 0.655347
+    },
+    "production": 0.657084,
+    "conclusion": "扩大RRB/加SER0.60全部低于生产；禁止扩大RRB"
+  },
+  "exp021": {
+    "status": "partial_win",
+    "results": {
+      "dtrb_reason": 0.657297,
+      "gap1_pool": 0.657207,
+      "ser70_sw5": 0.655854,
+      "cap7": 0.653292
+    },
+    "promoted": "dtrb_reason"
+  },
+  "exp022": {
+    "status": "archived_all_below_prod",
+    "best_of_batch": 0.656497,
+    "production": 0.657297
+  },
+  "exp023": {
+    "status": "archived_all_below_or_tie",
+    "best": 0.657275
+  },
+  "exp024": {
+    "status": "archived_all_le_prod",
+    "best": 0.657297,
+    "best_variant": "worried_to_scared_tie",
+    "manifest": "outputs/exp024/exp024_manifest.json"
+  },
+  "exp025": {
+    "status": "archived_all_below",
+    "best": 0.657133,
+    "best_variant": "quorum3_all",
+    "manifest": "outputs/exp025/exp025_manifest.json"
+  },
+  "exp026": {
+    "status": "archived_all_tie_sanitize_nullification",
+    "test": 0.657297,
+    "root_cause": "EW sanitize collapsed scared/positive recall; 2/4 zips MD5=prod",
+    "evidence": "experiments/exp027_submit_surface/sanitize_evidence.json",
+    "manifest": "outputs/exp026/exp026_manifest.json"
+  },
+  "exp027": {
+    "status": "falsified_submit_surface",
+    "results": {
+      "submit_raw": 0.657297,
+      "submit_dtrb_map": 0.657297,
+      "submit_csv_opt": 0.656573
+    },
+    "verdict": "raw/dtrb tie=EW-synonym-neutral; csv_opt hurts; not the primary bottleneck",
+    "evidence": "experiments/exp027_submit_surface/gate.json",
+    "manifest": "outputs/exp027/exp027_manifest.json"
+  },
+  "exp028": {
+    "status": "archived_both_below",
+    "results": {
+      "e14_official_union": 0.656367,
+      "e14_dense_union": 0.655859
+    },
+    "production": 0.657297,
+    "conclusion": "分歧子集openset重解码+soft-union全栈重建均伤分；暂停后处理/GPU suffix轰炸",
+    "manifest": "outputs/exp028/exp028_manifest.json"
+  }
+}

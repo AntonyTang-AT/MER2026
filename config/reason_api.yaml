@@ -1,0 +1,31 @@
+# Reason 外部大模型 API 接入配置
+# 插入点：AffectGPT reason.npz → [本模块改写] → openset / RRB / DTRB(reason_guided)
+
+provider: openai_compatible   # openai_compatible | passthrough
+base_url: "https://api.deepseek.com"
+model: "deepseek-chat"
+api_key_env: "REASON_API_KEY"  # 也识别 OPENAI_API_KEY / DEEPSEEK_API_KEY
+
+temperature: 0.3
+max_tokens: 768
+timeout_s: 120
+max_concurrency: 4
+
+# refine: 润色已有 reason（推荐）
+# generate_from_clues: 仅文本线索生成 reason（需提供 subtitle/clues）
+mode: refine
+prompt_variant: refine_v1   # refine_v1 | refine_compact
+
+system_prompt: >-
+  You are an expert multimodal emotion analyst.
+  Rewrite emotional clues clearly and factually in English.
+  Do not invent events absent from the input.
+  Output only the rewritten clue paragraph, no preamble.
+
+fallback_to_input: true
+dry_run: false
+
+# 环境变量可覆盖：
+#   REASON_API_KEY / OPENAI_API_KEY / DEEPSEEK_API_KEY
+#   REASON_API_BASE_URL  REASON_API_MODEL  REASON_API_PROVIDER  REASON_API_MODE
+#   REASON_API_DRY_RUN=1
